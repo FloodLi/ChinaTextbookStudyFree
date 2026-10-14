@@ -16,16 +16,21 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout main (source code)
         uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Apply personal customizations
+        run: |
+          git fetch origin ${{ github.ref_name }}
+          git checkout FETCH_HEAD -- scripts/quiz/subjects.py
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Fetch scripts from main
-        run: git fetch origin main && git checkout origin/main -- scripts/
 
       - name: Install release assets
         run: python3 scripts/install-release.py --tag ${{ inputs.assets_tag || 'v1.2.0-assets' }}
