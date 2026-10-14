@@ -1,0 +1,71 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      assets_tag:
+        description: "Release tag for assets (e.g. v1.2.0-assets)"
+        required: false
+        default: "v1.2.0-assets"
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install release assets
+        run: python3 scripts/install-release.py --tag ${{ inputs.assets_tag || 'v1.2.0-assets' }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build static site
+        run: npm run build
+
+      - name: Prune unused audio (keep only referenced)
+        run: |
+          python3 - <<'PY'
+          import os, re
+          out = "apps/web/out"
+          audio_re = re.compile(r'/audio/([0-9a-f]{2})/([0-9a-f]+\.opus)')
+          refs = set()
+          for root, dirs, files in os.walk(os.path.join(out, "data")):
+              for f in files:
+                  if not f.endswith(".json"):
+                      continue
+                  t = open(os.path.join(root, f), encoding="utf-8", errors="ignore").read()
+                  for a, b in audio_re.findall(t):
+                      refs.add(a + "/" + b)
+          print("referenced audio files:", len(refs))
+          audio_root = os.path.join(out, "audio")
+          removed = kept = 0
+          for b in os.listdir(audio_root):
+              bd = os.path.join(audio_root, b)
+              if not os.path.isdir(bd):
+                  continue
+              for fn in os.listdir(bd):
+                  if (b + "/" + fn) in refs:
+                      kept += 1
+                  else:
+                      os.remove(os.path.join(bd, fn))
+                      removed += 1
+          print(f"kept: {kept}, removed: {removed}")
+          PY
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          command: pages deploy --branch=main
