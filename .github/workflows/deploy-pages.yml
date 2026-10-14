@@ -80,6 +80,13 @@ jobs:
           print(f"kept: {kept}, removed: {removed}")
           PY
 
+      - name: Upload site artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: apps/web/out
+          retention-days: 3
+
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
