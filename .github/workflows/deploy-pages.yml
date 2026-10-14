@@ -24,6 +24,9 @@ jobs:
         with:
           node-version: 20
 
+      - name: Fetch scripts from main
+        run: git fetch origin main && git checkout origin/main -- scripts/
+
       - name: Install release assets
         run: python3 scripts/install-release.py --tag ${{ inputs.assets_tag || 'v1.2.0-assets' }}
 
