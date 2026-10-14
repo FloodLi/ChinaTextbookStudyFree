@@ -1,0 +1,5 @@
+name = "china-study-free"
+pages_build_output_dir = "apps/web/out"
+
+[observability]
+enabled = true
