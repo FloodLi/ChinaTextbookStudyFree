@@ -56,6 +56,29 @@ jobs:
           NEXT_TELEMETRY_DISABLED: 1
           NEXT_BASE_PATH: /ChinaTextbookStudyFree
 
+      - name: Patch asset paths in JSON data
+        run: |
+          python3 - <<'PY'
+          import os
+          base = "/ChinaTextbookStudyFree"
+          prefixes = ["/audio/", "/story-images/", "/textbook-pages/"]
+          data_dir = os.path.join("apps/web/out", "data")
+          patched = 0
+          for root, dirs, files in os.walk(data_dir):
+              for f in files:
+                  if not f.endswith(".json"):
+                      continue
+                  path = os.path.join(root, f)
+                  content = open(path, encoding="utf-8").read()
+                  original = content
+                  for p in prefixes:
+                      content = content.replace(f'"{p}', f'"{base}{p}')
+                  if content != original:
+                      open(path, "w", encoding="utf-8").write(content)
+                      patched += 1
+          print(f"patched {patched} JSON files")
+          PY
+
       - name: Prune unused audio (keep only referenced mp3)
         run: |
           python3 - <<'PY'
