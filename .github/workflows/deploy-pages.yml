@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Pages
+name: Deploy to GitHub Pages
 
 on:
   workflow_dispatch:
@@ -8,12 +8,17 @@ on:
         required: false
         default: "v1.2.0-assets"
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 concurrency:
   group: pages
   cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout main (source code)
@@ -25,7 +30,6 @@ jobs:
       - name: Apply personal customizations
         run: |
           git fetch origin ${{ github.ref_name }}
-          git checkout FETCH_HEAD -- wrangler.toml
           # git checkout FETCH_HEAD -- scripts/quiz/subjects.py
 
       - name: Setup Node
@@ -50,7 +54,7 @@ jobs:
         env:
           NEXT_TELEMETRY_DISABLED: 1
 
-      - name: Prune unused audio (keep only referenced)
+      - name: Prune unused audio (keep only referenced mp3)
         run: |
           python3 - <<'PY'
           import os, re
@@ -80,16 +84,18 @@ jobs:
           print(f"kept: {kept}, removed: {removed}")
           PY
 
-      - name: Upload site artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: site
           path: apps/web/out
-          retention-days: 3
 
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy --branch=main
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
