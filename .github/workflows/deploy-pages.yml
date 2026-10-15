@@ -30,6 +30,7 @@ jobs:
       - name: Apply personal customizations
         run: |
           git fetch origin ${{ github.ref_name }}
+          git checkout FETCH_HEAD -- apps/web/next.config.mjs
           # git checkout FETCH_HEAD -- scripts/quiz/subjects.py
 
       - name: Setup Node
@@ -53,6 +54,7 @@ jobs:
         run: npm run build
         env:
           NEXT_TELEMETRY_DISABLED: 1
+          NEXT_BASE_PATH: /ChinaTextbookStudyFree
 
       - name: Prune unused audio (keep only referenced mp3)
         run: |
