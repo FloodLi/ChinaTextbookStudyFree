@@ -20,7 +20,7 @@ import {
   type ReactNode,
 } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Lightning, Lock, Star, Crown, Chest, Book, Trophy } from "@/components/icons";
+import { Check, ArrowLeft, Lightning, Lock, Star, Crown, Chest, Book, Trophy } from "@/components/icons";
 import { cn } from "@/lib/cn";
 import { playSfx } from "@/lib/sfx";
 import { haptic } from "@/lib/haptic";
@@ -547,10 +547,10 @@ function PathNode({ lesson, status, stars, breatheDelay, color, onSelect }: Path
       >
         {isLocked && <Lock className="w-7 h-7" />}
         {isCurrent && <Star className="w-8 h-8 fill-white" />}
-        {isCompleted && <Crown className="w-8 h-8 fill-white" />}
+        {isCompleted && (lesson.questionCount < 3 ? <Check className="w-8 h-8" /> : <Crown className="w-8 h-8 fill-white" />)}
 
         {/* 星数小角标 */}
-        {isCompleted && stars > 0 && (
+        {isCompleted && stars > 0 && lesson.questionCount >= 3 && (
           <div className="absolute -bottom-1 -right-1 bg-white rounded-full px-1.5 py-0.5 shadow inline-flex items-center gap-0.5 text-gold">
             {Array.from({ length: stars }).map((_, i) => (
               <Star key={i} className="w-2.5 h-2.5 fill-current" />

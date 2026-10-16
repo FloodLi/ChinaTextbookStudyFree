@@ -35,7 +35,7 @@ interface FeedbackPanelProps {
   reportContext?: ReportContext | null;
 }
 
-const PRAISE_POOL = ["太棒了！", "完美！", "做得好！", "天才！", "继续保持！", "漂亮！"];
+const PRAISE_POOL = ["答对了！", "做得好！", "继续保持！", "太棒了！"];
 const COMFORT_POOL = ["再想想", "差一点", "加油", "没关系", "下次就对！"];
 
 /** 小旗子图标（仅报错入口用，不动 icons.tsx） */

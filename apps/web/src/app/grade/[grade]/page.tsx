@@ -4,6 +4,7 @@ import { StatsBar } from "@/components/StatsBar";
 import { SoundLink } from "@/components/SoundLink";
 import { AppShell } from "@/components/layout/AppShell";
 import { ChangeGradeButton } from "@/components/ChangeGradeButton";
+import { ContinueLearningCard } from "@/components/ContinueLearningCard";
 import type { SiteIndex, SubjectId, Book } from "@/types";
 import { SUBJECTS } from "@/lib/subjects";
 
@@ -99,6 +100,7 @@ export default async function GradePage({ params }: { params: Promise<{ grade: s
           </div>
         </div>
       </div>
+      <ContinueLearningCard />
       <div className="w-full">
 
         <div className="space-y-6">
