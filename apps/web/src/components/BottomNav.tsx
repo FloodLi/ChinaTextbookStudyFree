@@ -10,9 +10,8 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
-  BookOpen,
   Home as HomeIcon,
-  Trophy,
+  Shield as Trophy,
   Bookmark,
   ShoppingBag,
   User,
@@ -102,7 +101,6 @@ export function BottomNav() {
   useEffect(() => setHydrated(true), []);
 
   const selectedGrade = useProgressStore(s => s.selectedGrade);
-  const completed = useProgressStore(s => Object.keys(s.completedLessons).length);
   const mistakes = useProgressStore(s => s.mistakesBank);
   const gems = useProgressStore(s => s.gems);
   const ownedCosmetics = useProgressStore(s => s.ownedCosmetics);
@@ -132,8 +130,7 @@ export function BottomNav() {
   // 否则固定底栏会盖住这些页面底部的「检查 / 继续」按钮。
   if (!hydrated || (pathname === "/" && selectedGrade == null) || isImmersivePath(pathname)) return null;
 
-  const navItems = NAV_ITEMS.map(item => item.matchPrefix === "/league" && completed < 10
-    ? { ...item, href: `/reading/chinese-g${selectedGrade ?? 1}up/`, label: "听读", Icon: BookOpen, matchPrefix: "/reading" } : item);
+  const navItems = NAV_ITEMS;
 
   function getBadge(item: NavItem): { count?: number; dot?: boolean } | null {
     if (item.matchPrefix === "/review" && reviewBadge > 0) return { count: reviewBadge };
@@ -163,7 +160,7 @@ export function BottomNav() {
     >
       <div className="grid grid-cols-5 max-w-md mx-auto h-[68px]">
         {navItems.map(item => {
-          const active = isActive(pathname, item) && !(item.label === "学习" && completed < 10 && pathname.startsWith("/reading"));
+          const active = isActive(pathname, item);
           const Icon = item.Icon;
           const badge = getBadge(item);
           return (

@@ -104,8 +104,8 @@ const config: Config = {
         gold: DUO.bee,            // #FFC800 ← 统一到 Bee，消除重复
         ink: {
           DEFAULT: DUO.eel,       // #4B4B4B ← 修正（原 #3C3C3C）
-          light: "#58616B",        // #777777
-          softer: "#5D6670",       // #AFAFAF
+          light: "#737373",        // #777777
+          softer: "#767676",       // #AFAFAF
         },
         bg: {
           DEFAULT: DUO.snow,      // #FFFFFF

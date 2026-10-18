@@ -31,7 +31,7 @@ function parseBookId(lessonId: string): string | null {
   return m ? m[1] : null;
 }
 
-export function ContinueLearningCard() {
+export function ContinueLearningCard({ compact = false, placement = "page" }: { compact?: boolean; placement?: "page" | "rail" } = {}) {
   const activeLesson = useProgressStore(s => s.activeLesson);
   const [hydrated, setHydrated] = useState(false);
 
@@ -43,6 +43,14 @@ export function ContinueLearningCard() {
   if (!bookId) return null;
 
   const href = `/lesson/${bookId}/${activeLesson.lessonId}/`;
+
+  if (compact) return (
+    <Link href={href} data-placement={placement} className="continue-strip flex items-center gap-3 w-full rounded-2xl border-2 border-bg-softer bg-white p-3 mb-4" onClick={() => { playSfx("tap"); haptic("light"); }}>
+      <span className="continue-play w-10 h-10 rounded-xl flex items-center justify-center shrink-0" aria-hidden>▶</span>
+      <span className="flex-1 min-w-0"><span className="block text-base font-bold text-ink">继续上次的练习</span><span className="block text-sm text-ink-light mt-0.5">已答 {activeLesson.correctCount + activeLesson.mistakeCount} 题</span></span>
+      <span className="text-secondary-dark" aria-hidden>→</span>
+    </Link>
+  );
 
   return (
     <motion.div
@@ -69,7 +77,7 @@ export function ContinueLearningCard() {
             <Mascot mood="wave" size={64} />
           </motion.div>
           <div className="flex-1 min-w-0">
-            <div className="text-[11px] lg:text-xs font-extrabold text-primary uppercase tracking-wide">
+            <div className="text-sm font-extrabold text-primary uppercase tracking-wide">
               继续学习
             </div>
             <div className="mt-0.5 flex items-center gap-1.5 min-w-0">
@@ -83,12 +91,11 @@ export function ContinueLearningCard() {
             </div>
           </div>
           <motion.div
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.94 }}
-            className="shrink-0 w-12 h-12 lg:w-16 lg:h-16 rounded-2xl bg-primary text-white flex items-center justify-center"
-            style={{ boxShadow: "0 4px 0 0 #58a700" }}
+            whileHover={{ y: -1 }}
+            whileTap={{ y: 3 }}
+            className="continue-play shrink-0 w-12 h-12 lg:w-14 lg:h-14 rounded-2xl flex items-center justify-center"
           >
-            <span className="text-2xl font-extrabold">▶</span>
+            <span className="text-xl font-bold">▶</span>
           </motion.div>
         </div>
 

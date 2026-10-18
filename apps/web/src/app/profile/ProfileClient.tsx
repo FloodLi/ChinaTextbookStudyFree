@@ -371,8 +371,7 @@ function BackupSection() {
         <button
           type="button"
           onClick={handleExport}
-          className="min-h-11 px-4 inline-flex items-center gap-1.5 rounded-2xl text-sm font-extrabold border-2 bg-primary text-[#173408] border-primary"
-          style={{ boxShadow: "0 3px 0 0 #58A700" }}
+          className="btn-chunky-primary gap-2"
         >
           <Download className="w-4 h-4" aria-hidden /> 导出存档
         </button>
@@ -383,8 +382,7 @@ function BackupSection() {
             haptic("light");
             fileInputRef.current?.click();
           }}
-          className="min-h-11 px-4 inline-flex items-center gap-1.5 rounded-2xl text-sm font-extrabold border-2 bg-white text-ink-light border-bg-softer hover:border-primary/40 transition-colors"
-          style={{ boxShadow: "0 2px 0 0 var(--shadow-card-color)" }}
+          className="btn-chunky-ghost gap-2"
         >
           <Upload className="w-4 h-4" aria-hidden /> 导入存档
         </button>
@@ -552,12 +550,12 @@ function StatCard({
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-2xl border-2 border-bg-softer p-4"
+      className="ui-card bg-white rounded-2xl border-2 border-bg-softer p-4"
       style={{ boxShadow: "0 4px 0 0 var(--shadow-card-color)" }}
     >
       <div className={`${color}`}>{icon}</div>
       <div className="text-2xl font-extrabold text-ink mt-2 tabular-nums leading-none">{value}</div>
-      <div className="text-[10px] uppercase tracking-wider text-ink-softer font-extrabold mt-1.5">{label}</div>
+      <div className="text-sm text-ink-light font-medium mt-1.5">{label}</div>
     </motion.div>
   );
 }

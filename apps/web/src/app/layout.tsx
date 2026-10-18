@@ -11,7 +11,7 @@ import { LeagueWatcher } from "@/components/LeagueWatcher";
 
 const nunito = Nunito({
   subsets: ["latin"],
-  weight: ["600", "700", "800", "900"],
+  weight: ["400", "500", "600", "700", "800", "900"],
   variable: "--font-display",
   display: "swap",
 });

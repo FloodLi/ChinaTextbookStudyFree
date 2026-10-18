@@ -267,7 +267,7 @@ export function LessonRunner({ lesson, chestSlot = null, nextLessonId }: LessonR
   const backdropStyle = useMemo<React.CSSProperties>(() => {
     const item = getCosmeticById(backdropId) as LessonBackdrop | undefined;
     if (!item || item.type !== "lesson_backdrop" || item.id === "backdrop_default") {
-      return { background: "var(--app-bg, #F7F7F7)" };
+      return { background: "var(--app-bg, #FFFFFF)" };
     }
     // Keep equipped backgrounds visible while preserving dark-mode text contrast.
     return {
@@ -1757,7 +1757,7 @@ function IntroCard({
   const Icon = current.icon;
 
   return (
-    <main className="min-h-screen bg-bg-soft flex flex-col overflow-x-clip">
+    <main className="min-h-screen bg-bg flex flex-col overflow-x-hidden">
       {/* 顶栏：关闭 + 进度点 */}
       <div className="bg-white border-b border-bg-softer">
         <div className="max-w-md lg:max-w-2xl mx-auto px-4 py-3 flex items-center gap-3">
@@ -1813,9 +1813,9 @@ function IntroCard({
             <motion.div
               key={pageIdx}
               custom={direction}
-              initial={{ x: direction * 50, opacity: 0, scale: 0.96 }}
-              animate={{ x: 0, opacity: 1, scale: 1 }}
-              exit={{ x: direction * -50, opacity: 0, scale: 0.96 }}
+              initial={{ x: direction * 12, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: direction * -12, opacity: 0 }}
               transition={{ type: "spring", damping: 20, stiffness: 240 }}
               className="flex flex-col items-center text-center"
             >

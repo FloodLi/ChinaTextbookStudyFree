@@ -32,7 +32,7 @@ export function NumberSenseProgress({
   return (
     <section
       aria-label="数数与比多少示范单元"
-      className="ui-card w-full rounded-2xl border-2 border-secondary/30 bg-white p-4 mb-5 text-ink"
+      className="w-full mb-5 text-ink"
     >
       <h2 className="font-extrabold text-xl">数数与比多少</h2>
       <p className="text-sm text-ink-light mt-2">

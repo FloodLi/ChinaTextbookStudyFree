@@ -64,7 +64,7 @@
   --control-height: 50px;
   --control-depth: 4px;
   --radius-control: 16px;
-  --radius-card: 20px;
+  --radius-card: 16px;
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -127,7 +127,8 @@ body {
 
 body {
   font-family: var(--font-ui);
-  font-size: 16px;
+  font-size: 17px;
+  font-weight: 500;
   line-height: 1.55;
 }
 
@@ -150,10 +151,10 @@ h3,
   border: 2px solid transparent;
   border-radius: var(--radius-control);
   font-family: var(--font-ui);
-  font-size: 16px;
-  font-weight: 800;
-  line-height: 1.4;
-  letter-spacing: .01em;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: .025em;
   text-align: center;
   cursor: pointer;
   touch-action: manipulation;
@@ -241,13 +242,7 @@ h3,
 
 /* 当前路径节点的光晕 —— 颜色随单元色（--node-glow-color 由节点内联覆盖） */
 .path-node-current::before {
-  content: "";
-  position: absolute;
-  inset: -8px;
-  border-radius: 9999px;
-  background: radial-gradient(circle, var(--node-glow-color), transparent 70%);
-  animation: glowPulse 2s ease-in-out infinite;
-  z-index: -1;
+  content: ""; position: absolute; inset: -9px; border: 4px solid var(--app-border, #e5e5e5); border-radius: 50%; pointer-events: none;
 }
 
 /* 可访问性：尊重系统"减少动画" */
@@ -417,7 +412,7 @@ button:focus-visible,
 .app-shell h1 { font-size: 28px; line-height: 1.25; letter-spacing: 0; }
 .app-shell .shell-page-toolbar h1 { font-size: 20px; }
 @media (min-width: 1024px) { .app-shell h1 { font-size: 32px; } }
-.ui-card { border-radius: var(--radius-card); }
+.ui-card { border-radius: 16px; box-shadow: none !important; }
 .ui-icon-button {
   display: inline-flex; align-items: center; justify-content: center;
   flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px;
@@ -490,4 +485,78 @@ button:focus-visible,
   .lesson-screen .number-visual { margin-bottom: 12px; }
   .lesson-screen .number-visual > p:first-child { margin-bottom: 8px; }
   .lesson-screen .number-visual .compare-row { margin-bottom: 8px; }
+}
+
+
+/* Web parity: persistent navigation, quiet surfaces and clear action hierarchy. */
+.app-shell { min-height: calc(100dvh - 70px); }
+.app-shell main.min-h-screen { min-height: calc(100dvh - 70px); }
+.app-shell h1 { color: var(--app-ink, #3c3c3c); }
+.btn-chunky-primary, .theme-dark .btn-chunky-primary {
+  background-color: var(--action-primary-bg, #46a302);
+  color: var(--action-primary-ink, #fff);
+  box-shadow: 0 4px 0 var(--action-primary-edge, #398500);
+}
+.btn-chunky-secondary, .theme-dark .btn-chunky-secondary {
+  background-color: var(--action-accent-bg, #1897d3);
+  color: var(--action-accent-ink, #fff);
+  box-shadow: 0 4px 0 var(--action-accent-edge, #137dad);
+}
+:is(.btn-chunky-primary,.btn-chunky-secondary) :is(.text-primary,.text-secondary) { color: inherit; }
+.btn-chunky-ghost { font-size: 17px; color: var(--theme-accent-ink, #0875a5); box-shadow: 0 2px 0 var(--shadow-card-color); }
+.btn-chunky-disabled { color: #8d8d8d; background-color: #e5e5e5; box-shadow: none; }
+.theme-dark .btn-chunky-disabled { color: #91a2ab; background-color: var(--app-border); }
+.btn-chunky-sm { font-size: 17px; }
+:is(.btn-chunky-primary,.btn-chunky-secondary).btn-chunky-sm { font-size: 19px; }
+.continue-play { color: var(--action-primary-ink, #fff); background-color: var(--action-primary-bg, #46a302); box-shadow: 0 4px 0 var(--action-primary-edge, #398500); }
+.brand-wordmark { color: #58a700; font-weight: 800; }
+.theme-dark .brand-wordmark { color: #89e219; }
+.nav-label { font-size: 15px; font-weight: 700; letter-spacing: .04em; }
+.league-locked { max-width: 460px; margin-inline: auto; }
+.league-locked h2 { font-size: 25px; line-height: 1.35; font-weight: 700; }
+.league-locked p { font-size: 17px; line-height: 1.65; }
+.league-locked .league-explainer { font-size: 14px; }
+.path-banner { background-color: var(--action-primary-bg, #46a302) !important; color: var(--action-primary-ink, #fff); box-shadow: none !important; }
+.path-banner .path-banner-action { border: 2px solid rgba(255,255,255,.25); box-shadow: 0 2px 0 rgba(0,0,0,.12); }
+.path-banner .subject-badge { display: none; }
+@media (min-width: 768px) {
+  .app-shell { min-height: 100dvh; }
+  .app-shell main.min-h-screen { min-height: calc(100dvh - 48px); }
+  .shell-sidebar { border-right: 2px solid var(--app-border, #e5e5e5); padding: 24px 16px 24px 0; top: 0; height: 100dvh; margin-top: -24px; }
+  .lesson-screen .lesson-body { padding-top: 40px; }
+  .lesson-screen .question-prompt h2 { font-size: 28px; line-height: 1.35; }
+  .lesson-screen .lesson-mascot { display: none; }
+}
+@media (min-width: 1024px) {
+  .app-shell { grid-template-columns: 232px minmax(0,1fr); }
+  .lesson-screen .lesson-body > div, .lesson-handbook { max-width: 600px; }
+}
+@media (min-width: 1280px) {
+  .app-shell[data-has-rail="true"] { grid-template-columns: 232px minmax(0,1fr) 320px; }
+}
+
+.path-disc { height: 64px; border-radius: 50%; }
+:is(.btn-chunky-primary,.btn-chunky-secondary):disabled { background-color: var(--app-bg-softer, #e5e5e5); color: var(--app-ink-softer, #8d8d8d); box-shadow: none; }
+@media (min-width: 768px) {
+  .lesson-actions > div { max-width: 1000px; justify-content: space-between; min-height: 132px; }
+  .lesson-actions > div > button { flex: 0 0 auto; width: 150px; }
+  .lesson-feedback .feedback-content { max-width: 1000px; display: grid; grid-template-columns: minmax(0,1fr) 150px; column-gap: 48px; align-items: center; min-height: 132px; }
+  .lesson-feedback .feedback-content > div:first-child { grid-column: 1; }
+  .lesson-feedback .feedback-content > div:nth-child(2) { grid-column: 1; margin-bottom: 0; }
+  .lesson-feedback .feedback-content > button { grid-column: 2; grid-row: 1 / span 2; width: 150px; }
+}
+@media (min-width: 1280px) {
+  .continue-strip[data-placement="page"] { display: none; }
+  .continue-strip[data-placement="rail"] { margin-bottom: 0; }
+}
+@media (min-width: 768px) {
+  .lesson-toolbar { border-bottom: 0; }
+  .lesson-toolbar > div { max-width: 1040px; padding-top: 32px; padding-bottom: 16px; }
+}
+
+@media (min-width: 768px) {
+  .guide-screen > header { max-width: 1040px; width: 100%; margin-inline: auto; border-bottom: 0; padding-top: 24px; }
+  .guide-actions > div { max-width: 1000px; }
+  .guide-actions button { width: 150px; flex: 0 0 auto; }
+  .guide-actions button:last-child { margin-left: auto; }
 }

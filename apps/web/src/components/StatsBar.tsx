@@ -92,7 +92,7 @@ export function StatsBar({ compact = false, placement = "page" }: StatsBarProps 
           title={`红心：${dHearts} / ${MAX_HEARTS}`}
         >
           <Heart className="w-6 h-6" />
-          <span className="text-ink">{dHearts}</span>
+          <span>{dHearts}</span>
         </motion.button>
 
         {/* 连续天数 —— 可点开连胜详情弹层 */}
@@ -115,7 +115,7 @@ export function StatsBar({ compact = false, placement = "page" }: StatsBarProps 
           title={`连续学习 ${dStreak} 天`}
         >
           <Flame className={`w-6 h-6 ${streakActive ? "" : "status-inactive"}`} />
-          <span className="text-ink">{dStreak}</span>
+          <span>{dStreak}</span>
         </motion.button>
 
         {/* XP —— compact 模式隐藏 */}
@@ -187,19 +187,7 @@ export function StatsBar({ compact = false, placement = "page" }: StatsBarProps 
                   }
                 }}
                 disabled={gems < HEART_REFILL_COST}
-                className={`w-full mt-4 inline-flex items-center justify-center gap-1.5 rounded-2xl py-2.5 font-extrabold text-sm transition-colors ${
-                  gems >= HEART_REFILL_COST
-                    ? "text-[#132C36]"
-                    : "bg-bg-softer text-ink-softer cursor-not-allowed"
-                }`}
-                style={
-                  gems >= HEART_REFILL_COST
-                    ? {
-                        background: "linear-gradient(135deg, #1CB0F6, #1899D6)",
-                        boxShadow: "0 4px 0 0 #0d7aa8",
-                      }
-                    : undefined
-                }
+                className={gems >= HEART_REFILL_COST ? "btn-chunky-secondary w-full mt-4 gap-2" : "btn-chunky-disabled w-full mt-4 gap-2"}
               >
                 <Gem className="w-4 h-4" />
                 <span className="tabular-nums">{HEART_REFILL_COST}</span>
@@ -420,12 +408,7 @@ function StreakModal({
               type="button"
               onClick={handleBuyFreeze}
               disabled={gems < FREEZE_COST}
-              className={`w-full mt-2.5 inline-flex items-center justify-center gap-1.5 rounded-2xl min-h-11 py-2 font-extrabold text-sm transition-colors ${
-                gems >= FREEZE_COST
-                  ? "text-white bg-secondary"
-                  : "bg-bg-softer text-ink-softer cursor-not-allowed"
-              }`}
-              style={gems >= FREEZE_COST ? { boxShadow: "0 3px 0 0 #0d7aa8" } : undefined}
+              className={gems >= FREEZE_COST ? "btn-chunky-secondary w-full mt-3 gap-2" : "btn-chunky-disabled w-full mt-3 gap-2"}
             >
               <Gem className="w-4 h-4" />
               <span className="tabular-nums">{FREEZE_COST}</span>
@@ -447,12 +430,7 @@ function StreakModal({
               type="button"
               onClick={handleMakeup}
               disabled={gems < STREAK_MAKEUP_COST}
-              className={`w-full mt-2.5 inline-flex items-center justify-center gap-1.5 rounded-2xl min-h-11 py-2 font-extrabold text-sm transition-colors ${
-                gems >= STREAK_MAKEUP_COST
-                  ? "text-[#132C36] bg-fox"
-                  : "bg-bg-softer text-ink-softer cursor-not-allowed"
-              }`}
-              style={gems >= STREAK_MAKEUP_COST ? { boxShadow: "0 3px 0 0 #C87500" } : undefined}
+              className={gems >= STREAK_MAKEUP_COST ? "btn-chunky-secondary w-full mt-3 gap-2" : "btn-chunky-disabled w-full mt-3 gap-2"}
             >
               <Gem className="w-4 h-4" />
               <span className="tabular-nums">{STREAK_MAKEUP_COST}</span>

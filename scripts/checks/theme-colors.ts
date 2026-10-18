@@ -11,6 +11,10 @@ function ratio(a: string,b: string): number {const x=luminance(a),y=luminance(b)
 for (const theme of UI_THEMES) for (const dark of [false,true]) {
   const {primary,primaryDark,accent}=theme.data;
   const colors=themeAccentColors(primary,primaryDark,accent,dark);
+  for (const action of ['primary','accent']) {
+    assert.ok(ratio(colors[`--action-${action}-bg`], colors[`--action-${action}-ink`]) >= (dark ? 4.5 : 3), `${theme.id}: large action label contrast`);
+    assert.ok(luminance(colors[`--action-${action}-edge`]) < luminance(colors[`--action-${action}-bg`]), `${theme.id}: action depth must be darker`);
+  }
   for(const [fill,label,onFill] of [[primary,'--theme-primary-ink','--theme-on-primary'],[accent,'--theme-accent-ink','--theme-on-accent'],[primaryDark,'--theme-primary-ink','--theme-on-primary-dark']]) {
     assert.ok(ratio(fill,colors[onFill])>=4.5,`${theme.id}: filled button ${ratio(fill,colors[onFill])}`);
     for(const surface of dark ? ['#131F24','#202F36','#37464F'] : ['#FFFFFF','#F7F7F7','#E5E5E5']) {

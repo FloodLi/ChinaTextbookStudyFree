@@ -37,7 +37,7 @@ export function GemBadge({ className = "", asLink = true }: GemBadgeProps) {
     >
       <Gem className="w-6 h-6" />
       <motion.span
-        className="text-ink"
+        className="text-gem"
         key={display}
         initial={{ y: -6, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}

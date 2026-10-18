@@ -25,7 +25,29 @@ export function themeAccentColors(primary: string, primaryDark: string, accent: 
     if (Math.max(darkRatio, lightRatio) < 4.5) return '#000000';
     return darkRatio >= lightRatio ? '#071317' : '#FFFFFF';
   };
+  // Large (19px/700) action labels use the Web light/dark foreground convention.
+  // Keep at least 3:1 for large text instead of placing black labels on neon fills.
+  const action = (hex: string) => {
+    const source = rgb(hex);
+    let color = source;
+    if (!dark) for (let step = 0; step <= 40; step++) {
+      color = source.map(c => Math.round(c * (1 - step / 40)));
+      if (contrast(color, [255, 255, 255]) >= 3.1) break;
+    }
+    return {
+      bg: `rgb(${color.join(' ')})`,
+      ink: dark ? fill(hex) : '#FFFFFF',
+      edge: `rgb(${color.map(c => Math.round(c * .82)).join(' ')})`,
+    };
+  };
+  const primaryAction = action(primary), accentAction = action(accent);
   return {
+    '--action-primary-bg': primaryAction.bg,
+    '--action-primary-ink': primaryAction.ink,
+    '--action-primary-edge': primaryAction.edge,
+    '--action-accent-bg': accentAction.bg,
+    '--action-accent-ink': accentAction.ink,
+    '--action-accent-edge': accentAction.edge,
     '--theme-primary-rgb': rgb(primary).join(' '),
     '--theme-primary-dark-rgb': rgb(primaryDark).join(' '),
     '--theme-accent-rgb': rgb(accent).join(' '),
