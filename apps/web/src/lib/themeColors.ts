@@ -25,22 +25,18 @@ export function themeAccentColors(primary: string, primaryDark: string, accent: 
     if (Math.max(darkRatio, lightRatio) < 4.5) return '#000000';
     return darkRatio >= lightRatio ? '#071317' : '#FFFFFF';
   };
-  // Large (19px/700) action labels use the Web light/dark foreground convention.
-  // Keep at least 3:1 for large text instead of placing black labels on neon fills.
-  const action = (hex: string) => {
-    const source = rgb(hex);
-    let color = source;
-    if (!dark) for (let step = 0; step <= 40; step++) {
-      color = source.map(c => Math.round(c * (1 - step / 40)));
-      if (contrast(color, [255, 255, 255]) >= 3.1) break;
-    }
+  // Product fills are palette values, never contrast-adjusted text colors.
+  // Measured Duolingo Web: owl #58CC02 / tree-frog #58A700, white label.
+  // Keep readable small labels separate rather than darkening every control.
+  const action = (hex: string, edge: string) => {
     return {
-      bg: `rgb(${color.join(' ')})`,
+      bg: hex,
       ink: dark ? fill(hex) : '#FFFFFF',
-      edge: `rgb(${color.map(c => Math.round(c * .82)).join(' ')})`,
+      edge,
     };
   };
-  const primaryAction = action(primary), accentAction = action(accent);
+  const primaryAction = action(primary, primaryDark);
+  const accentAction = action(accent, accent.toUpperCase() === '#1CB0F6' ? '#1899D6' : `rgb(${rgb(accent).map(c => Math.round(c * .82)).join(' ')})`);
   return {
     '--action-primary-bg': primaryAction.bg,
     '--action-primary-ink': primaryAction.ink,

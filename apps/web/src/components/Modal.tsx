@@ -26,6 +26,8 @@ interface ModalProps {
   dismissible?: boolean;
   /** 无障碍标题（aria-label），如未提供尽量给一个 */
   ariaLabel?: string;
+  /** Reading needs a wider text column than short confirmation dialogs. */
+  size?: "compact" | "reading";
 }
 
 const FOCUSABLE = [
@@ -37,7 +39,7 @@ const FOCUSABLE = [
   "[tabindex]:not([tabindex='-1'])",
 ].join(",");
 
-export function Modal({ open, onClose, children, dismissible = true, ariaLabel }: ModalProps) {
+export function Modal({ open, onClose, children, dismissible = true, ariaLabel, size = "compact" }: ModalProps) {
   const [portalReady, setPortalReady] = useState(false);
   useEffect(() => setPortalReady(true), []);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -136,7 +138,7 @@ export function Modal({ open, onClose, children, dismissible = true, ariaLabel }
             exit={{ y: 12, scale: 0.98, opacity: 0 }}
             transition={uiMotion.enter}
             onClick={e => e.stopPropagation()}
-            className="w-full max-w-sm max-h-[calc(100dvh-2.5rem)] overflow-y-auto overscroll-contain bg-white ui-card rounded-3xl border-2 border-bg-softer p-5 sm:p-6 focus:outline-none"
+            className={`w-full ${size === "reading" ? "max-w-2xl" : "max-w-sm"} max-h-[calc(100dvh-2.5rem)] overflow-y-auto overscroll-contain bg-white ui-card rounded-3xl border-2 border-bg-softer p-5 sm:p-6 focus:outline-none`}
             style={{ boxShadow: "0 10px 0 0 var(--shadow-card-color), 0 16px 40px rgba(0,0,0,0.15)" }}
           >
             {children}

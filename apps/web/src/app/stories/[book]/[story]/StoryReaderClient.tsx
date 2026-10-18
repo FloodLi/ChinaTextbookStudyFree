@@ -147,7 +147,7 @@ export default function StoryReaderClient({ story, backHref }: Props) {
   const stars = accuracy >= 0.95 ? 3 : accuracy >= 0.75 ? 2 : 1;
 
   return (
-    <main className="min-h-screen bg-bg-soft" style={{ paddingBottom: "calc(6rem + env(safe-area-inset-bottom))" }}>
+    <main className="reading-screen min-h-screen bg-bg" style={{ paddingBottom: "calc(6rem + env(safe-area-inset-bottom))" }}>
       <InnerHeader
         backHref={backHref}
         title={story.title}
@@ -217,7 +217,7 @@ export default function StoryReaderClient({ story, backHref }: Props) {
                           disabled={!s.audio || mode !== "idle"}
                           className={cn(
                             "shrink-0 w-11 h-11 inline-flex items-center justify-center rounded-full",
-                            "bg-bg-soft text-primary hover:bg-primary/10 transition-colors",
+                            "bg-bg-soft text-secondary hover:bg-secondary/10 transition-colors",
                             (!s.audio || mode !== "idle") && "opacity-40 cursor-not-allowed",
                           )}
                         >
@@ -379,8 +379,10 @@ export default function StoryReaderClient({ story, backHref }: Props) {
         )}
       </AnimatePresence>
 
-      <Modal open={passageOpen} ariaLabel="查看原文与证据" onClose={() => { stopPlayback(); setPassageOpen(false); }}>
-        <button type="button" className="btn-chunky-secondary w-full mb-5" onClick={() => { stopPlayback(); setPassageOpen(false); }}>回到题目</button>
+      <Modal open={passageOpen} size="reading" ariaLabel="查看原文与证据" onClose={() => { stopPlayback(); setPassageOpen(false); }}>
+        <div className="sticky top-0 z-10 bg-white pb-4">
+          <button type="button" className="btn-chunky-secondary w-full" onClick={() => { stopPlayback(); setPassageOpen(false); }}>回到题目</button>
+        </div>
         {evidencePanel}
         {playbackError && <p role="alert" className="text-danger mt-3">{playbackError}</p>}
       </Modal>

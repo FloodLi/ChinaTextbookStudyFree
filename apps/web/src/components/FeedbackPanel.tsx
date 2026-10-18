@@ -110,6 +110,7 @@ export function FeedbackPanel({
       initial={{ y: 24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={uiMotion.enter}
+      data-result={isCorrect ? "correct" : "wrong"}
       className={`lesson-feedback fixed bottom-0 left-0 right-0 z-50 border-t-2 ${bg} backdrop-blur-sm`}
       style={{ boxShadow: "0 -8px 24px rgba(0,0,0,0.06)", paddingBottom: "env(safe-area-inset-bottom)", maxHeight: "85dvh", overflowY: "auto" }}
     >

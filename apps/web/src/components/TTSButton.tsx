@@ -89,9 +89,9 @@ export function TTSButton({
       onClick={play}
       className={cn(
         "ui-icon-button cursor-pointer",
-        "bg-bg-soft text-primary hover:bg-primary/10 transition-colors shrink-0",
+        "bg-bg-soft text-secondary hover:bg-secondary/10 transition-colors shrink-0",
         dim,
-        playing && "animate-pulse text-primary",
+        playing && "animate-pulse text-secondary",
         disabled && "opacity-40 !cursor-default",
         className,
       )}

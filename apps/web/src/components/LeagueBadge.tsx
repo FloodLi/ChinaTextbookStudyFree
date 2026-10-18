@@ -20,8 +20,8 @@ export function LeagueBadge({ size = 104, locked = true, tone = "#1CB0F6", emble
 
 export function LeagueBadgeGroup() {
   return <div className="relative w-56 h-36" aria-hidden="true">
-    <LeagueBadge locked={false} tone="#BD936A" emblemTone="#AB8056" className="absolute w-24 h-28 left-0 top-4 -rotate-[20deg]" />
-    <LeagueBadge locked={false} tone="#C1D3E1" emblemTone="#ACC0D0" className="absolute w-24 h-28 right-0 top-4 rotate-[20deg]" />
+    <LeagueBadge locked={false} tone="#1CB0F6" emblemTone="#1899D6" className="absolute w-24 h-28 left-0 top-4 -rotate-[20deg]" />
+    <LeagueBadge locked={false} tone="#CE82FF" emblemTone="#A568CC" className="absolute w-24 h-28 right-0 top-4 rotate-[20deg]" />
     <LeagueBadge locked={false} tone="#FFC800" emblemTone="#E8A000" className="absolute w-28 h-32 left-1/2 top-0 -translate-x-1/2" />
   </div>;
 }
