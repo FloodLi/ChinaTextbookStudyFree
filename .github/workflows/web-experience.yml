@@ -25,6 +25,7 @@ jobs:
       - run: npm test
       - run: npm run type-check
       - run: npm run check:web-experience
+      - run: npm run check:visual-controls
       - name: Learning quality and canonical pilot content
         run: |
           npx tsx apps/web/scripts/build-data.ts

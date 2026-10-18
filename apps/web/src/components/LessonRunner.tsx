@@ -1,4 +1,5 @@
 "use client";
+import { uiMotion } from "@/lib/motion";
 import Link from 'next/link';
 import { numberSkillForLesson, NUMBER_LESSONS, type NumberPracticeEvidence } from '@cstf/core/numberSense';
 
@@ -355,6 +356,10 @@ export function LessonRunner({ lesson, chestSlot = null, nextLessonId }: LessonR
   const [settingsMounted, setSettingsMounted] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showIntro, setShowIntro] = useState((lesson.knowledge !== null && !numberSkill) || lesson.id === "g1up-u1-kp1");
+  const questionScrollRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (questionScrollRef.current) questionScrollRef.current.scrollTop = 0;
+  }, [serveKey, ready, showIntro]);
   const [introPage, setIntroPage] = useState(0);
   const [introCompletedPages, setIntroCompletedPages] = useState<number[]>([]);
   const [warmupCounted, setWarmupCounted] = useState<number[]>([]);
@@ -1039,7 +1044,7 @@ export function LessonRunner({ lesson, chestSlot = null, nextLessonId }: LessonR
   return (
     <motion.main
       animate={shakeControls}
-      className="min-h-screen flex flex-col relative"
+      className="lesson-screen flex flex-col relative"
       style={backdropStyle}
     >
       {/* +XP 飘字层 —— fixed 定位独立于 layout，不影响滚动 */}
@@ -1197,12 +1202,12 @@ export function LessonRunner({ lesson, chestSlot = null, nextLessonId }: LessonR
       )}
 
       {/* Top bar: close, progress, combo, XP, hearts */}
-      <div className="bg-white border-b border-bg-softer">
+      <div className="lesson-toolbar bg-white border-b border-bg-softer">
         <div className="max-w-md lg:max-w-2xl mx-auto px-3 py-2.5 flex items-center gap-2">
           <button
             type="button"
             onClick={handleRequestExit}
-            className="h-11 w-11 -ml-1 inline-flex items-center justify-center rounded-full text-ink-light hover:text-ink hover:bg-bg-softer transition-colors shrink-0"
+            className="ui-icon-button -ml-1 text-ink-light hover:text-ink hover:bg-bg-softer transition-colors shrink-0"
             aria-label="退出课程"
           >
             <Close className="w-5 h-5" />
@@ -1300,7 +1305,7 @@ export function LessonRunner({ lesson, chestSlot = null, nextLessonId }: LessonR
                 setSettingsMounted(true);
                 setShowSettings(true);
               }}
-              className="h-11 w-11 inline-flex items-center justify-center rounded-full text-ink-light hover:text-ink hover:bg-bg-softer transition-colors"
+              className="ui-icon-button text-ink-light hover:text-ink hover:bg-bg-softer transition-colors"
               aria-label="课程设置"
             >
               <GearIcon className="w-5 h-5" />
@@ -1309,6 +1314,7 @@ export function LessonRunner({ lesson, chestSlot = null, nextLessonId }: LessonR
         </div>
       </div>
 
+      <div ref={questionScrollRef} className="lesson-content">
       {/* 三星距离提示（动态：剩 N 题就三星 / 二星，临近时会更激励） */}
       {total >= 3 && !numberSkill && <StarDistanceHint
         correctCount={correctCount}
@@ -1317,7 +1323,7 @@ export function LessonRunner({ lesson, chestSlot = null, nextLessonId }: LessonR
       />}
 
       {/* 吉祥物 + 气泡 */}
-      <div className="max-w-md lg:max-w-2xl mx-auto w-full px-5 pt-2 flex items-end gap-3 min-h-[96px]">
+      <div className="lesson-mascot max-w-md lg:max-w-2xl mx-auto w-full px-4 flex items-end gap-3" data-has-message={!!bubbleText}>
         <Mascot
           mood={phase === "checked" ? mascotMood : "happy"}
           size={72}
@@ -1334,20 +1340,12 @@ export function LessonRunner({ lesson, chestSlot = null, nextLessonId }: LessonR
       </div>
 
       {total < 3 && <p className="max-w-md mx-auto px-5 pt-3 text-sm text-ink-light">微练习 · 先试一试，再通过更多情境巩固</p>}
-      {lesson.knowledge && <details className="max-w-md lg:max-w-2xl mx-auto w-full px-5 pt-3">
-        <summary className="cursor-pointer min-h-11 flex items-center text-secondary-dark font-bold">聪聪的讲解手册</summary>
-        <div className="rounded-2xl bg-white border-2 border-bg-softer p-4 text-ink leading-relaxed space-y-3">
-          <MathText text={lesson.knowledge.core_concept} />
-          <TTSButton src={lesson.knowledge.audio?.core_concept} label="朗读知识讲解" />
-          <MathText text={lesson.knowledge.key_formula} />
-          <MathText text={lesson.knowledge.tips} />
-        </div>
-      </details>}
+
       {/* Question area */}
-      <div className="flex-1 flex flex-col items-center justify-start px-5 py-4">
+      <div className="lesson-body flex flex-col items-center justify-start">
         <div className="w-full max-w-md lg:max-w-2xl">
           {/* "NEW WORD" 紫色胶囊 tag —— 仿 Duolingo 题型标签 */}
-          <div className="mb-3 inline-flex items-center gap-1.5 flex-wrap">
+          <div className={cn("mb-3 inline-flex items-center gap-1.5 flex-wrap", numberSkill && "hidden")}>
             {/* ⚔️ 单元挑战徽章（紫金） */}
             {isExam && (
               <span
@@ -1375,10 +1373,10 @@ export function LessonRunner({ lesson, chestSlot = null, nextLessonId }: LessonR
           <AnimatePresence mode="wait">
             <motion.div
               key={serveKey}
-              initial={{ x: 30, y: 8, opacity: 0 }}
+              initial={{ x: 12, y: 4, opacity: 0 }}
               animate={{ x: 0, y: 0, opacity: 1 }}
-              exit={{ x: -30, y: 0, opacity: 0 }}
-              transition={{ type: "spring", damping: 22, stiffness: 240 }}
+              exit={{ x: -12, y: 0, opacity: 0 }}
+              transition={uiMotion.enter}
             >
               <QuestionRenderer
                 question={current}
@@ -1396,6 +1394,17 @@ export function LessonRunner({ lesson, chestSlot = null, nextLessonId }: LessonR
         </div>
       </div>
 
+      {lesson.knowledge && <details className="lesson-handbook max-w-md lg:max-w-2xl w-full">
+        <summary className="cursor-pointer min-h-11 flex items-center text-secondary-dark font-bold">聪聪的讲解手册</summary>
+        <div className="rounded-2xl bg-white border-2 border-bg-softer p-4 text-ink leading-relaxed space-y-3">
+          <MathText text={lesson.knowledge.core_concept} />
+          <TTSButton src={lesson.knowledge.audio?.core_concept} label="朗读知识讲解" />
+          <MathText text={lesson.knowledge.key_formula} />
+          <MathText text={lesson.knowledge.tips} />
+        </div>
+      </details>}
+      </div>
+
       {/* a11y: 屏幕阅读器实时播报答题结果（仅 sr-only） */}
       <div className="sr-only" aria-live="polite" aria-atomic="true">
         {phase === "checked" && isCorrect === true && `回答正确。${current.explanation ?? ""}`}
@@ -1405,8 +1414,8 @@ export function LessonRunner({ lesson, chestSlot = null, nextLessonId }: LessonR
 
       {/* Bottom: SKIP / CHECK 双按钮（仿 Duolingo 真机底栏） */}
       {phase === "answering" && (
-        <div className="bg-white border-t-2 border-bg-softer">
-          <div className="max-w-md lg:max-w-2xl mx-auto px-5 py-4 flex items-center gap-3">
+        <div className="lesson-actions bg-white border-t-2 border-bg-softer">
+          <div className="max-w-md lg:max-w-2xl mx-auto px-4 py-4 flex items-center gap-3">
             <button
               type="button"
               onClick={skipQuestion}

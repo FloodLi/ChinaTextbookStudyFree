@@ -19,7 +19,8 @@ import {
   STREAK_MILESTONE_REWARDS,
   useProgressStore,
 } from "@/store/progress";
-import { Heart, Flame, Lightning, Snowflake, Gem } from "@/components/icons";
+import { Heart, Flame, Gem, Lightning } from "@/components/LearningIcon";
+import { Snowflake } from "@/components/icons";
 import { useToast } from "./Toast";
 import { MuteToggle, AutoNarrateToggle, useSyncMute } from "./MuteToggle";
 import { Modal } from "./Modal";
@@ -82,16 +83,15 @@ export function StatsBar({ compact = false, placement = "page" }: StatsBarProps 
           }}
           initial={{ opacity: 0, y: -6 }}
           animate={{ opacity: 1, y: 0 }}
-          whileTap={{ scale: 0.95 }}
-          className={`min-h-11 px-3 inline-flex items-center gap-1.5 rounded-xl border font-bold text-sm select-none tabular-nums transition-colors ${
+          className={`status-counter min-h-11 px-2 inline-flex items-center gap-2 rounded-xl font-extrabold text-base select-none tabular-nums transition-colors ${
             dHearts > 0
-              ? "border-danger/40 text-danger bg-danger/10"
-              : "border-bg-softer text-ink-softer bg-bg-soft"
+              ? "text-danger"
+              : "text-ink-softer"
           }`}
           aria-label="红心"
           title={`红心：${dHearts} / ${MAX_HEARTS}`}
         >
-          <Heart className="w-[18px] h-[18px]" />
+          <Heart className="w-6 h-6" />
           <span className="text-ink">{dHearts}</span>
         </motion.button>
 
@@ -106,16 +106,15 @@ export function StatsBar({ compact = false, placement = "page" }: StatsBarProps 
           initial={{ opacity: 0, y: -6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05 }}
-          whileTap={{ scale: 0.95 }}
-          className={`min-h-11 px-3 inline-flex items-center gap-1.5 rounded-xl border font-bold text-sm select-none tabular-nums transition-colors ${
+          className={`status-counter min-h-11 px-2 inline-flex items-center gap-2 rounded-xl font-extrabold text-base select-none tabular-nums transition-colors ${
             streakActive
-              ? "border-fox text-fox bg-fox/10"
-              : "border-bg-softer text-ink-softer bg-bg-soft"
+              ? "text-fox"
+              : "text-ink-softer"
           }`}
           aria-label="连胜详情"
           title={`连续学习 ${dStreak} 天`}
         >
-          <Flame className="w-[18px] h-[18px]" />
+          <Flame className={`w-6 h-6 ${streakActive ? "" : "status-inactive"}`} />
           <span className="text-ink">{dStreak}</span>
         </motion.button>
 

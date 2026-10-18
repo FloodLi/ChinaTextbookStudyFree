@@ -203,7 +203,7 @@ export default function ShopPage() {
         </div>
 
         <details className="mt-10 rounded-2xl border border-bg-softer bg-white p-5">
-          <summary className="cursor-pointer text-base font-bold text-ink">学习补给 <span className="ml-2 text-sm font-normal text-ink-light">连胜护盾与红心</span></summary>
+          <summary className="cursor-pointer min-h-11 text-base font-bold text-ink">学习补给 <span className="ml-2 text-sm font-normal text-ink-light">连胜护盾与红心</span></summary>
           <div className="mt-5"><PowerUpsSection /></div>
         </details>
       </main>
@@ -459,6 +459,7 @@ function PreviewStage({ item }: { item: CosmeticItem }) {
       >
         <motion.div
           key={item.id}
+          className="shop-mascot"
           initial={{ scale: 0.8, opacity: 0, y: 8 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           transition={{ type: "spring", damping: 16, stiffness: 220 }}

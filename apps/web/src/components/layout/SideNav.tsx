@@ -8,7 +8,7 @@
  * 响应式（web-shell-14）：
  *   - md (768-1023)：icon-only 窄栏（AppShell 给 72px），文字隐藏
  *   - lg+：完整 200px，图标 + 文字
- * 统一线性图标，激活态通过颜色与背景表达。
+ * Filled learning illustrations; blue border and surface mark the current page.
  * 底部：免费深色模式三态开关。
  */
 
@@ -24,7 +24,7 @@ import {
   ShoppingBag,
   User,
   type IconProps,
-} from "@/components/icons";
+} from "@/components/LearningIcon";
 import { ThemeModeToggle } from "@/components/ThemeModeToggle";
 import { cn } from "@/lib/cn";
 import { playSfx } from "@/lib/sfx";
@@ -100,9 +100,9 @@ export function SideNav() {
               haptic("light");
             }}
             className={cn(
-              "group flex items-center justify-center lg:justify-start gap-3 px-3 h-12 rounded-xl border transition-colors select-none",
+              "group flex items-center justify-center lg:justify-start gap-3 px-3 h-14 rounded-xl border-2 transition-colors select-none",
               active
-                ? "border-primary/30 bg-primary/10 text-primary-dark"
+                ? "border-secondary/50 bg-secondary/10 text-secondary-dark"
                 : "border-transparent text-ink-light hover:bg-bg-soft"
             )}
             aria-current={active ? "page" : undefined}
@@ -111,14 +111,14 @@ export function SideNav() {
           >
             <Icon
               className={cn(
-                "w-6 h-6 shrink-0",
+                "w-8 h-8 shrink-0",
                 active ? "text-primary-dark" : "text-ink-softer group-hover:text-ink-light"
               )}
             />
             <span
               className={cn(
                 "hidden lg:inline text-base font-extrabold",
-                active ? "text-primary-dark" : "text-ink-light group-hover:text-ink"
+                active ? "text-secondary-dark" : "text-ink-light group-hover:text-ink"
               )}
             >
               {item.label}

@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Volume } from "@/components/icons";
 import { useProgressStore } from "@/store/progress";
+import { QuestionPrompt } from "./QuestionPrompt";
 import { ChoiceQuestion } from "./ChoiceQuestion";
 import type { QuestionRendererProps } from "./QuestionRenderer";
 import type { NumberVisual } from "@cstf/core/numberSense";
@@ -25,7 +26,7 @@ export function NumberSenseVisual({
     "min-w-11 min-h-11 rounded-xl border-2 flex flex-col items-center justify-center text-3xl px-2 py-1 focus-visible:ring-2 focus-visible:ring-secondary";
   if (visual.kind === "count") {
     return (
-      <div className="rounded-2xl bg-bg-soft p-2 sm:p-3 mb-4">
+      <div className="number-visual rounded-2xl bg-bg-soft p-2 sm:p-3 mb-4">
         <p className="text-sm text-ink-light mb-3">
           可以点物体做记号，每个只数一次。
         </p>
@@ -95,7 +96,7 @@ export function NumberSenseVisual({
   if (visual.kind === "compare") {
     const paired = Math.min(marked.length, visual.left, visual.right);
     return (
-      <div className="rounded-2xl bg-bg-soft p-2 sm:p-3 mb-4">
+      <div className="number-visual rounded-2xl bg-bg-soft p-2 sm:p-3 mb-4">
         <p className="text-sm text-ink-light mb-3">
           可以一个配一个，再看看哪一组有剩下。
         </p>
@@ -103,7 +104,7 @@ export function NumberSenseVisual({
           [visual.left, visual.leftEmoji, visual.leftLabel],
           [visual.right, visual.rightEmoji, visual.rightLabel],
         ].map(([count, emoji, label], row) => (
-          <div key={row} className="mb-3">
+          <div key={row} className="compare-row">
             <p className="text-sm font-bold text-ink mb-2">{label}</p>
             <div
               className="grid grid-cols-5 gap-1"
@@ -142,7 +143,7 @@ export function NumberSenseVisual({
     .filter((i) => i < visual.learners)
     .slice(0, visual.resources);
   return (
-    <div className="rounded-2xl bg-bg-soft p-2 sm:p-3 mb-4">
+    <div className="number-visual rounded-2xl bg-bg-soft p-2 sm:p-3 mb-4">
       <p className="text-sm text-ink-light mb-3">
         点一个朋友，给它分一个。再点可以收回来。
       </p>
@@ -240,25 +241,14 @@ export function NumberSenseQuestion(props: QuestionRendererProps) {
         if (/^[1-9]$/.test(event.key)) window.speechSynthesis?.cancel();
       }}
     >
-      <p className="text-sm font-extrabold text-secondary-dark mb-3">
+      <p className="question-context text-secondary-dark">
         {task.stage === "guided"
           ? "跟着做"
           : task.stage === "transfer"
             ? "换个情境试一试"
             : "自己试一试"}
       </p>
-      {!question.audio?.question && (
-        <button
-          type="button"
-          disabled={muted || locked}
-          aria-label="朗读题目"
-          onClick={() => readText(question.question)}
-          className="min-h-11 px-3 mb-3 rounded-xl border-2 border-bg-softer text-ink font-bold inline-flex gap-2 items-center"
-        >
-          <Volume className="w-5 h-5" />
-          听题目
-        </button>
-      )}
+      <QuestionPrompt text={question.question} audio={question.audio?.question} locked={locked} action={!question.audio?.question ? <button type="button" disabled={muted || locked} aria-label="朗读题目" onClick={() => readText(question.question)} className="ui-icon-button border-2 border-bg-softer text-secondary-dark"><Volume className="w-5 h-5"/></button> : undefined}/>
       {audioError && (
         <p role="status" className="text-sm text-ink-light mb-3">
           这台设备暂时不能朗读，可以先看图和题目。
@@ -271,7 +261,7 @@ export function NumberSenseQuestion(props: QuestionRendererProps) {
         showCount={task.stage === "guided" || hint > 0}
         locked={locked || phase === "checked"}
       />
-      <ChoiceQuestion {...props} />
+      <ChoiceQuestion {...props} hidePrompt />
       {phase === "checked" && !question.audio?.explanation && (
         <button
           type="button"
@@ -283,10 +273,10 @@ export function NumberSenseQuestion(props: QuestionRendererProps) {
         </button>
       )}
       {phase === "answering" && props.onHint && (
-        <div className="mt-4">
+        <div className="mt-2">
           <button
             type="button"
-            className="min-h-11 px-3 text-secondary-dark font-bold underline"
+            className="ui-text-button text-secondary-dark"
             disabled={locked || hint >= task.hints.length}
             onClick={() => {
               if (props.onHint) props.onHint();

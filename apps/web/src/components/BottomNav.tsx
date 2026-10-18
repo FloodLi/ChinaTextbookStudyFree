@@ -17,7 +17,7 @@ import {
   ShoppingBag,
   User,
   type IconProps,
-} from "@/components/icons";
+} from "@/components/LearningIcon";
 import { playSfx } from "@/lib/sfx";
 import { haptic } from "@/lib/haptic";
 import { useProgressStore } from "@/store/progress";
@@ -44,40 +44,40 @@ const NAV_ITEMS: NavItem[] = [
     label: "学习",
     Icon: HomeIcon,
     matchPrefix: "/",
-    activeColor: "text-primary-dark",
-    activeBg: "bg-primary/10",
+    activeColor: "text-secondary-dark",
+    activeBg: "bg-secondary/10",
   },
   {
     href: "/league/",
     label: "排行榜",
     Icon: Trophy,
     matchPrefix: "/league",
-    activeColor: "text-primary-dark",
-    activeBg: "bg-primary/10",
+    activeColor: "text-secondary-dark",
+    activeBg: "bg-secondary/10",
   },
   {
     href: "/review/",
     label: "错题本",
     Icon: Bookmark,
     matchPrefix: "/review",
-    activeColor: "text-primary-dark",
-    activeBg: "bg-primary/10",
+    activeColor: "text-secondary-dark",
+    activeBg: "bg-secondary/10",
   },
   {
     href: "/shop/",
     label: "商店",
     Icon: ShoppingBag,
     matchPrefix: "/shop",
-    activeColor: "text-primary-dark",
-    activeBg: "bg-primary/10",
+    activeColor: "text-secondary-dark",
+    activeBg: "bg-secondary/10",
   },
   {
     href: "/profile/",
     label: "我的",
     Icon: User,
     matchPrefix: "/profile",
-    activeColor: "text-primary-dark",
-    activeBg: "bg-primary/10",
+    activeColor: "text-secondary-dark",
+    activeBg: "bg-secondary/10",
   },
 ];
 
@@ -152,17 +152,16 @@ export function BottomNav() {
     <div
       aria-hidden="true"
       className="md:hidden"
-      style={{ height: "calc(3.5rem + max(env(safe-area-inset-bottom), 0px))" }}
+      style={{ height: "calc(4.25rem + max(env(safe-area-inset-bottom), 0px))" }}
     />
     <nav
       className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t-2 border-bg-softer"
       style={{
         paddingBottom: "max(env(safe-area-inset-bottom), 0px)",
-        boxShadow: "0 -2px 12px rgba(0,0,0,0.04)",
       }}
       aria-label="主导航"
     >
-      <div className="grid grid-cols-5 max-w-md mx-auto h-14">
+      <div className="grid grid-cols-5 max-w-md mx-auto h-[68px]">
         {navItems.map(item => {
           const active = isActive(pathname, item) && !(item.label === "学习" && completed < 10 && pathname.startsWith("/reading"));
           const Icon = item.Icon;
@@ -175,7 +174,7 @@ export function BottomNav() {
                 playSfx("tap");
                 haptic("light");
               }}
-              className="flex flex-col items-center justify-center gap-0.5 select-none relative"
+              className="flex flex-col items-center justify-center gap-1 select-none relative"
               aria-label={
                 badge?.count
                   ? `${item.label}（${badge.count} 项待办）`
@@ -186,12 +185,12 @@ export function BottomNav() {
               aria-current={active ? "page" : undefined}
             >
               <div
-                className={`relative flex items-center justify-center w-10 h-7 rounded-full transition-colors ${
-                  active ? item.activeBg : ""
+                className={`relative flex items-center justify-center w-12 h-9 rounded-xl border-2 transition-colors ${
+                  active ? `${item.activeBg} border-secondary/50` : "border-transparent"
                 }`}
               >
                 <Icon
-                  className={`w-[22px] h-[22px] ${
+                  className={`w-8 h-8 ${
                     active ? item.activeColor : "text-ink-softer"
                   }`}
                 />
@@ -210,7 +209,7 @@ export function BottomNav() {
                 ) : null}
               </div>
               <span
-                className={`text-[11px] font-bold leading-none ${
+                className={`text-xs font-bold leading-none ${
                   active ? item.activeColor : "text-ink-softer"
                 }`}
               >

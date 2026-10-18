@@ -25,10 +25,14 @@ export function NumberSenseProgress({
   const practiced = ready
     ? NUMBER_SKILLS.filter((skill) => progress[skill]).length
     : 0;
+  if (!expanded) return <section aria-label="数数与比多少示范单元" className="number-unit-entry ui-card border-2 border-secondary/25 bg-white p-4 mb-4 text-ink">
+    <div><h2 className="font-extrabold">数数与比多少</h2><p className="text-ink-light">三节动手课 · 不扣红心{practiced > 0 ? ` · 已练 ${practiced}/3` : ''}</p></div>
+    <Link href={due.length ? "/number-sense/review/" : "/number-sense/"} className="ui-text-button text-secondary-dark">{due.length ? "用新题检验一下" : "进入示范单元"} <span aria-hidden="true" className="ml-2">→</span></Link>
+  </section>;
   return (
     <section
       aria-label="数数与比多少示范单元"
-      className="w-full rounded-2xl border-2 border-secondary/30 bg-white p-4 mb-5 text-ink"
+      className="ui-card w-full rounded-2xl border-2 border-secondary/30 bg-white p-4 mb-5 text-ink"
     >
       <h2 className="font-extrabold text-xl">数数与比多少</h2>
       <p className="text-sm text-ink-light mt-2">
@@ -47,7 +51,7 @@ export function NumberSenseProgress({
             return (
               <article
                 key={skill}
-                className="rounded-2xl border-2 border-bg-softer p-4"
+                className="ui-card rounded-2xl border-2 border-bg-softer p-4"
               >
                 <h3 className="font-extrabold text-lg">
                   {i + 1}. {NUMBER_LESSONS[skill].title}
@@ -70,7 +74,7 @@ export function NumberSenseProgress({
                   </p>
                 )}
                 <Link
-                  className="btn-chunky-secondary mt-3 w-full"
+                  className="btn-chunky-ghost mt-3 w-full"
                   href={`/lesson/g1up/${NUMBER_LESSONS[skill].id}/`}
                 >
                   {entry ? "再练一次" : "开始这节课"}

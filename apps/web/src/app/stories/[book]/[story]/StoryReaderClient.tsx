@@ -250,11 +250,11 @@ export default function StoryReaderClient({ story, backHref }: Props) {
             transition={{ duration: 0.25 }}
             className="max-w-md lg:max-w-6xl mx-auto px-4 py-5 lg:grid lg:grid-cols-2 lg:gap-6 lg:items-start"
           >
-            <aside className="hidden lg:block lg:sticky lg:top-24 max-h-[75dvh] overflow-y-auto rounded-2xl bg-white border border-bg-softer p-5">{evidencePanel}</aside>
+            <aside className="hidden lg:block lg:sticky lg:top-24 max-h-[75dvh] overflow-y-auto ui-card rounded-2xl bg-white border-2 border-bg-softer p-5">{evidencePanel}</aside>
             <div className="min-w-0">
-            <button type="button" className="min-h-11 px-4 py-2 mb-3 rounded-xl border-2 border-secondary text-secondary-dark font-extrabold" onClick={() => { stopPlayback(); setPassageOpen(true); }}>查看原文 / 找证据</button>
+            <button type="button" className="btn-chunky-ghost mb-4" onClick={() => { stopPlayback(); setPassageOpen(true); }}>查看原文 / 找证据</button>
             {selectedEvidence.length > 0 && <p className="mb-3 text-sm text-ink-light" role="status">我找到了第 {selectedEvidence.join('、')} 句。</p>}
-            <div className="bg-white rounded-2xl border border-bg-softer p-5 mb-4 shadow-sm">
+            <div className="ui-card bg-white border-2 border-bg-softer p-4 sm:p-5 mb-4">
               <QuestionRenderer
                 question={currentQuestion}
                 answer={answer}
@@ -299,20 +299,18 @@ export default function StoryReaderClient({ story, backHref }: Props) {
                 onClick={checkAnswer}
                 disabled={!answer.trim()}
                 className={cn(
-                  "w-full py-4 rounded-2xl text-lg font-extrabold transition-colors",
+                  "w-full",
                   answer.trim()
-                    ? "bg-primary text-white hover:bg-primary-dark"
-                    : "bg-bg-softer text-ink-softer cursor-not-allowed",
+                    ? "btn-chunky-primary"
+                    : "btn-chunky-disabled",
                 )}
-                style={answer.trim() ? { boxShadow: "0 4px 0 0 var(--color-primary-dark, #1a7f37)" } : undefined}
               >
                 检查答案
               </button>
             ) : (
               <button
                 onClick={nextQuestion}
-                className="w-full py-4 rounded-2xl bg-primary text-white text-lg font-extrabold hover:bg-primary-dark transition-colors"
-                style={{ boxShadow: "0 4px 0 0 var(--color-primary-dark, #1a7f37)" }}
+                className="btn-chunky-primary w-full"
               >
                 {qIdx + 1 < story.questions.length ? "下一题" : "查看结果"}
               </button>
@@ -364,8 +362,7 @@ export default function StoryReaderClient({ story, backHref }: Props) {
             <div className="space-y-3">
               <button
                 onClick={() => router.push(backHref)}
-                className="w-full py-4 rounded-2xl bg-primary text-white text-lg font-extrabold hover:bg-primary-dark transition-colors"
-                style={{ boxShadow: "0 4px 0 0 var(--color-primary-dark, #1a7f37)" }}
+                className="btn-chunky-primary w-full"
               >
                 返回故事列表
               </button>
@@ -373,7 +370,7 @@ export default function StoryReaderClient({ story, backHref }: Props) {
                 onClick={() => {
                   dispatch({ type: 'restart' });
                 }}
-                className="w-full py-3 rounded-2xl bg-white border-2 border-bg-softer text-ink font-bold hover:border-primary/40 transition-colors"
+                className="btn-chunky-ghost w-full"
               >
                 再读一遍
               </button>
@@ -393,7 +390,6 @@ export default function StoryReaderClient({ story, backHref }: Props) {
           <div className="max-w-md lg:max-w-6xl mx-auto px-4 py-3 flex gap-3">
             <motion.button
               type="button"
-              whileTap={{ scale: 0.96 }}
               onClick={playAll}
               disabled={!hasAudio}
               className={cn(
@@ -417,7 +413,6 @@ export default function StoryReaderClient({ story, backHref }: Props) {
 
             <motion.button
               type="button"
-              whileTap={{ scale: 0.96 }}
               onClick={startQuiz}
               className="flex-1 gap-2 btn-chunky-secondary"
             >

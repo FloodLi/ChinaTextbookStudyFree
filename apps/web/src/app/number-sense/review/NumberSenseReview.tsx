@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { dateKey } from "@cstf/core/week";
 import { dueNumberSkills, NUMBER_LESSONS } from "@cstf/core/numberSense";
@@ -21,6 +21,10 @@ export default function NumberSenseReview() {
   useSyncMute();
   const [session, setSession] = useState<NumberCheckState | null>(null);
   const [ready, setReady] = useState(false);
+  const questionScrollRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (questionScrollRef.current) questionScrollRef.current.scrollTop = 0;
+  }, [session?.index, ready]);
   const [limited, setLimited] = useState(false);
   const [saved, setSaved] = useState(false);
   const [saveMessage, setSaveMessage] = useState("");
@@ -150,8 +154,8 @@ export default function NumberSenseReview() {
       </main>
     );
   return (
-    <main className="min-h-screen max-w-2xl mx-auto px-3 sm:px-4 py-5 text-ink">
-      <div className="flex items-center justify-between gap-3 mb-4">
+    <main className="lesson-screen flex flex-col max-w-2xl mx-auto text-ink">
+      <div className="lesson-toolbar flex items-center justify-between gap-3 px-3 py-2">
         <Link
           className="min-h-11 inline-flex items-center font-bold text-secondary-dark"
           href="/number-sense/"
@@ -163,11 +167,12 @@ export default function NumberSenseReview() {
         </span>
         <MuteToggle />
       </div>
-      <h1 className="text-xl font-extrabold">隔天用新题试一试</h1>
+      <div ref={questionScrollRef} className="lesson-content px-3 sm:px-4">
+      <h1 className="text-lg font-extrabold">隔天用新题试一试</h1>
       <p className="text-sm text-ink-light mb-5 mt-2">
         可以点物体做记号。需要帮助也没关系，我们会把它记成“还需要巩固”。
       </p>
-      <div className="rounded-2xl bg-white border-2 border-bg-softer p-3 sm:p-4">
+      <div className="rounded-2xl bg-white border-2 border-bg-softer p-2 sm:p-4">
         <QuestionRenderer
           key={current.id}
           question={current}
@@ -177,8 +182,9 @@ export default function NumberSenseReview() {
           onChange={(value) => update({ type: "answer", value })}
         />
       </div>
+      </div>
       {session.checked ? (
-        <div className="mt-4">
+        <div className="lesson-actions max-h-[45dvh] overflow-y-auto px-3 pt-3 pb-4 bg-white border-t-2 border-bg-softer">
           <p role="status" className="rounded-xl bg-secondary/10 p-4">
             {correct ? "这道新题答对了。" : "一起看看方法："}{" "}
             {current.explanation}
@@ -191,7 +197,7 @@ export default function NumberSenseReview() {
           </button>
         </div>
       ) : (
-        <div className="mt-4">
+        <div className="lesson-actions px-3 pt-3 pb-3 bg-white border-t-2 border-bg-softer">
           <button
             className={
               session.answer
@@ -204,7 +210,7 @@ export default function NumberSenseReview() {
             检查
           </button>
           <button
-            className="min-h-11 text-secondary-dark font-bold mt-3 w-full"
+            className="ui-text-button text-secondary-dark mt-1 w-full"
             onClick={() => update({ type: "help" })}
           >
             需要帮助，先看看方法

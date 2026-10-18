@@ -37,7 +37,7 @@ export default async function BookPage({ params }: { params: Promise<{ book: str
 
   return (
     <AppShell centerMaxWidth={720}>
-    <main className="min-h-screen bg-bg-soft lg:bg-transparent">
+    <main className="min-h-screen bg-bg lg:bg-transparent">
       {/* 访问即成为「当前教材」（首页据此直达本页） */}
       <ActiveBookSync bookId={bookId} grade={book.grade} />
 

@@ -404,7 +404,6 @@ export function PassageReader({ passage, backHref }: Props) {
         <div className="max-w-md lg:max-w-6xl mx-auto px-4 py-3 flex gap-3">
           <motion.button
             type="button"
-            whileTap={{ scale: 0.96 }}
             onClick={playAll}
             disabled={!hasAnyAudio || mode === "followup"}
             className={cn(
@@ -428,7 +427,6 @@ export function PassageReader({ passage, backHref }: Props) {
 
           <motion.button
             type="button"
-            whileTap={{ scale: 0.96 }}
             onClick={runFollowup}
             disabled={!hasAnyAudio || mode === "playing"}
             className={cn(
