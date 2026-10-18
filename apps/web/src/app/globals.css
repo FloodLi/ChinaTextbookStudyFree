@@ -565,8 +565,8 @@ button:focus-visible,
 
 /* Palette fidelity: artwork and controls must not inherit darkened text inks. */
 :root { --surface-hover: #f7f7f7; }
-.app-shell, main.lesson-screen, main.guide-screen, main.reading-screen { background-color: var(--theme-bg, #fff); }
-.theme-dark :is(.app-shell, main.lesson-screen, main.guide-screen, main.reading-screen) { background-color: var(--app-bg); }
+.app-shell, main.bg-bg-soft, main.lesson-screen, main.guide-screen, main.reading-screen { background-color: var(--theme-bg, #fff); }
+.theme-dark :is(.app-shell, main.bg-bg-soft, main.lesson-screen, main.guide-screen, main.reading-screen) { background-color: var(--app-bg); }
 .option-card { background-color: #fff; box-shadow: 0 2px 0 var(--shadow-card-color); font-weight: 500; }
 .option-card-selected { border-color: #84D8FF; background-color: #DDF4FF; color: #1899D6; box-shadow: 0 2px 0 #84D8FF; }
 .option-card-correct { background-color: #D7FFB8; box-shadow: 0 2px 0 #58CC02; }

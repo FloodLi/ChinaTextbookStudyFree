@@ -1384,5 +1384,45 @@
       "viewport": 390
     },
     "passed": true
+  },
+  {
+    "key": "jump-final",
+    "failures": [],
+    "metrics": {
+      "actionTop": null,
+      "controls": 9,
+      "dark": false,
+      "documentWidth": 1280,
+      "font": "Nunito, \"Nunito Fallback\", \"PingFang SC\", \"Microsoft YaHei\", \"Hiragino Sans GB\", ui-sans-serif, system-ui, sans-serif",
+      "height": 900,
+      "optionWidths": [
+        620,
+        620,
+        620
+      ],
+      "promptTop": 151.046875,
+      "route": "/jump/",
+      "shortControls": [],
+      "viewport": 1280
+    },
+    "passed": true
+  },
+  {
+    "key": "review-complete-final",
+    "failures": [],
+    "metrics": {
+      "actionTop": null,
+      "controls": 0,
+      "dark": false,
+      "documentWidth": 1280,
+      "font": "Nunito, \"Nunito Fallback\", \"PingFang SC\", \"Microsoft YaHei\", \"Hiragino Sans GB\", ui-sans-serif, system-ui, sans-serif",
+      "height": 900,
+      "optionWidths": [],
+      "promptTop": null,
+      "route": "/review/runner/",
+      "shortControls": [],
+      "viewport": 1280
+    },
+    "passed": true
   }
 ]
